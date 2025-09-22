@@ -1,5 +1,16 @@
+package sofi;
+
 import java.io.File;
 import java.io.IOException;
+import sofi.task.Task;
+import sofi.task.TaskList;
+import sofi.task.Todo;
+import sofi.task.Deadline;
+import sofi.task.Event;
+import sofi.command.Parser;
+import sofi.storage.Storage;
+import sofi.ui.Ui;
+import sofi.exception.SofiException;
 
 public class SOFI {
     private Storage storage;

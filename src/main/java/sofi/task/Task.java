@@ -1,3 +1,5 @@
+package sofi.task;
+
 public abstract class Task {
     protected String description;
     protected boolean isDone;
@@ -20,4 +22,8 @@ public abstract class Task {
     }
 
     public abstract String toString();
+    
+    public String getDescription() {
+        return description;
+    }
 }
