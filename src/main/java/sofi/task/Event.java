@@ -1,20 +1,25 @@
+package sofi.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Deadline extends Task {
-    protected LocalDateTime by;
+public class Event extends Task {
+    private LocalDateTime from;
+    private LocalDateTime to;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
-    public Deadline(String description, String by) {
+    public Event(String description, String from, String to) {
         super(description);
-        this.by = parseDateTime(by);
+        this.from = parseDateTime(from);
+        this.to = parseDateTime(to);
     }
 
-    public Deadline(String description, LocalDateTime by) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
-        this.by = by;
+        this.from = from;
+        this.to = to;
     }
 
     private LocalDateTime parseDateTime(String dateTimeStr) {
@@ -23,8 +28,8 @@ public class Deadline extends Task {
             return LocalDateTime.parse(dateTimeStr, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
             try {
-                // Try yyyy-MM-dd format (default to 23:59)
-                return LocalDateTime.parse(dateTimeStr + " 2359", INPUT_FORMAT);
+                // Try yyyy-MM-dd format (default to 00:00)
+                return LocalDateTime.parse(dateTimeStr + " 0000", INPUT_FORMAT);
             } catch (DateTimeParseException e2) {
                 try {
                     // Try M/d/yyyy HHmm format
@@ -32,9 +37,9 @@ public class Deadline extends Task {
                     return LocalDateTime.parse(dateTimeStr, altFormat);
                 } catch (DateTimeParseException e3) {
                     try {
-                        // Try M/d/yyyy format (default to 23:59)
+                        // Try M/d/yyyy format (default to 00:00)
                         DateTimeFormatter altFormat = DateTimeFormatter.ofPattern("M/d/yyyy HHmm");
-                        return LocalDateTime.parse(dateTimeStr + " 2359", altFormat);
+                        return LocalDateTime.parse(dateTimeStr + " 0000", altFormat);
                     } catch (DateTimeParseException e4) {
                         // If all parsing fails, throw a more informative exception
                         throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd, yyyy-MM-dd HHmm, M/d/yyyy, or M/d/yyyy HHmm format.");
@@ -46,11 +51,14 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + getStatusIcon() + " " + description + " (by: " + by.format(OUTPUT_FORMAT) + ")";
+        return "[E]" + getStatusIcon() + " " + description + " (from: " + from.format(OUTPUT_FORMAT) + " to: " + to.format(OUTPUT_FORMAT) + ")";
     }
 
-    public LocalDateTime getBy() {
-        return by;
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    public LocalDateTime getTo() {
+        return to;
     }
 }
-

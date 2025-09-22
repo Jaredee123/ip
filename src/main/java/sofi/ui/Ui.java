@@ -1,5 +1,8 @@
+package sofi.ui;
+
 import java.util.Scanner;
 import java.util.ArrayList;
+import sofi.task.Task;
 
 public class Ui {
     private Scanner scanner;
